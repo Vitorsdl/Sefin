@@ -2,16 +2,13 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.text.ParseException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 
 public class Consulta extends JFrame {
 
@@ -39,9 +36,8 @@ public class Consulta extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
 	 */
-	public Consulta() throws ParseException {
+	public Consulta() {
 		super("Consulta");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 364, 245);
@@ -87,7 +83,7 @@ public class Consulta extends JFrame {
 		contentPane.add(textNom);
 		textNom.setColumns(10);
 		
-		textDat = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		textDat = new JTextField();
 		textDat.setEditable(false);
 		textDat.setBounds(55, 117, 86, 20);
 		contentPane.add(textDat);
