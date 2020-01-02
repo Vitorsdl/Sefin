@@ -10,7 +10,8 @@ import javax.swing.plaf.FileChooserUI;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
-
+import java.io.*;
+import java.util.*;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -49,8 +50,8 @@ public class CadPDF extends JFrame {
 	 */
 	public CadPDF() {
 		super("Cadastro PDF");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 593, 375);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 534, 377);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -85,9 +86,9 @@ public class CadPDF extends JFrame {
 		
 		JLabel lblDataHora = new JLabel();
 		Date data = new Date();
-		lblDataHora.setText("Data/Hora: Mon Dec 23 09:01:30 BRT 2019");
-		//GregorianCalendar gc = new java.util.GregorianCalendar();
-        //gc.add(Calendar.MINUTE,1);
+		lblDataHora.setText("Data/Hora: " + data);
+		GregorianCalendar gc = new GregorianCalendar();
+        gc.add(Calendar.MINUTE,1);
 		lblDataHora.setBounds(20, 198, 236, 14);
 		contentPane.add(lblDataHora);
 		
@@ -123,15 +124,40 @@ public class CadPDF extends JFrame {
 					
 					File arq = file.getSelectedFile();
 					textLocalArq.setText(arq.getPath());
+					textLocalArq.setEnabled(false);
 				}
 			}
 		});
-		btnSelect.setBounds(433, 89, 69, 23);
+		btnSelect.setBounds(433, 89, 85, 23);
 		contentPane.add(btnSelect);
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(226, 265, 106, 38);
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnSalvar.setBounds(222, 268, 106, 38);
 		contentPane.add(btnSalvar);
+		
+		JButton button = new JButton("Select");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				JFileChooser destino = new JFileChooser();
+				destino.setDialogTitle("Selecione local");				
+				destino.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int retorn = destino.showOpenDialog(destino);
+				
+				if(retorn == JFileChooser.APPROVE_OPTION) {
+					File ende = destino.getSelectedFile();
+					textSalvarLocal.setText(ende.getPath());
+					textSalvarLocal.setEnabled(false);
+				}				
+			}
+		});
+		button.setBounds(397, 121, 87, 23);
+		contentPane.add(button);
 		
 	}
 }
