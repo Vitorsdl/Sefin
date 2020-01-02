@@ -40,7 +40,7 @@ public class conexaoBd {
 		
 	}
 	
-	public static void closeConnection(Connection con, PreparedStatement stmt	) {
+	public static void closeConnection(Connection con, PreparedStatement stmt) {
 			
 			if(stmt != null) {
 				
@@ -56,7 +56,7 @@ public class conexaoBd {
 			
 		}
 	
-	public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs	) {
+	public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs) {
 		
 		if(rs != null) {
 			

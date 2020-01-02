@@ -40,6 +40,7 @@ public class Menu extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setResizable(false);
 		contentPane.setLayout(null);
 		
 		JButton btnCadastro = new JButton("CADASTRO");
