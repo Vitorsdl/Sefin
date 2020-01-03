@@ -1,11 +1,13 @@
 package model.bean;
 
+import java.util.Date;
+
 public class pdf {
 	
 	 private int numeroinc;
 	 private String nomeaqr;
-	 private String data;
-	 private String dataatl;
+	 private Date data;
+	 private Date dataatl;
 	 
 	public int getNumeroinc() {
 		return numeroinc;
@@ -19,16 +21,16 @@ public class pdf {
 	public void setNomeaqr(String nomeaqr) {
 		this.nomeaqr = nomeaqr;
 	}
-	public String getData() {
+	public Date getData() {
 		return data;
 	}
-	public void setData(String data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
-	public String getDataatl() {
+	public Date getDataatl() {
 		return dataatl;
 	}
-	public void setDataatl(String dataatl) {
+	public void setDataatl(Date dataatl) {
 		this.dataatl = dataatl;
 	}
 	 

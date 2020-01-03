@@ -11,13 +11,12 @@ public class conexaoBd {
 	private static final String DRIVER = "com.microsoft.sqlserver.jdbc.Driver";
 	private static final String URL = "ati.goiania.go.gov.br";
 	private static final String USER = "m1333984";
-	private static final String PASS = "candido@21";
+	private static final String PASS = "Candido@21";
 	
 	public static conexaoBd getConnection() {
 		
 		try {
-			Class.forName(DRIVER);
-			
+			Class.forName(DRIVER);			
 			return (conexaoBd) DriverManager.getConnection(URL, USER, PASS);
 			
 		} catch (ClassNotFoundException | SQLException ex) {

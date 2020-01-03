@@ -1,14 +1,15 @@
 package model.dao;
 
-import java.sql.PreparedStatement;
-
 import conexao.conexaoBd;
 import model.bean.pdf;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+
 public class pdfDAO {
 	
-	private conexaoBd  
-	con = null;
+	private conexaoBd con = null;
 	
 	public pdfDAO() {
 		
@@ -17,13 +18,10 @@ public class pdfDAO {
 	
 	public boolean save(pdf pdf){
 		
-		String sql = "";
-		
-		
+				
 		PreparedStatement stmt = null;
-		 stmt = con.preparedStatement(sql);
-		stmt.executeUpdate();
 		
+		 stmt = con.
 	}
 
 }
