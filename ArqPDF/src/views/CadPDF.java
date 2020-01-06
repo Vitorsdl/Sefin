@@ -1,20 +1,19 @@
 package views;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.FileChooserUI;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.io.*;
 import java.util.*;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
@@ -26,8 +25,8 @@ public class CadPDF extends JFrame {
 	private JPanel contentPane;
 	private JTextField textNumero;
 	private JTextField textNome;
-	private JTextField textLocalArq;
-	private JTextField textSalvarLocal;
+	private JTextField textArq;
+	private JTextField textDiretorio;
 
 	/**
 	 * Launch the application.
@@ -51,7 +50,7 @@ public class CadPDF extends JFrame {
 	public CadPDF() {
 		super("Cadastro PDF");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 534, 377);
+		setBounds(100, 100, 331, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -75,11 +74,11 @@ public class CadPDF extends JFrame {
 		
 		JLabel lblNome = new JLabel("Nome arquivo");
 		lblNome.setFont(new Font("Verdana", Font.PLAIN, 11));
-		lblNome.setBounds(169, 36, 87, 14);
+		lblNome.setBounds(20, 89, 87, 14);
 		contentPane.add(lblNome);
 		
 		textNome = new JTextField();
-		textNome.setBounds(169, 58, 244, 20);
+		textNome.setBounds(20, 104, 244, 20);
 		contentPane.add(textNome);
 		textNome.setColumns(10);
 		
@@ -89,59 +88,69 @@ public class CadPDF extends JFrame {
 		lblDataHora.setText("Data/Hora: " + data);
 		GregorianCalendar gc = new GregorianCalendar();
         gc.add(Calendar.MINUTE,1);
-		lblDataHora.setBounds(20, 198, 236, 14);
+		lblDataHora.setBounds(59, 404, 236, 14);
 		contentPane.add(lblDataHora);
 		
-		JLabel lblLocalArq = new JLabel("Local do arquivo:");
-		lblLocalArq.setBounds(20, 93, 99, 14);
-		contentPane.add(lblLocalArq);
+		JLabel lblArq = new JLabel("Arquivo:");
+		lblArq.setBounds(20, 146, 63, 14);
+		contentPane.add(lblArq);
 		
-		textLocalArq = new JTextField();		
-		textLocalArq.setBounds(124, 90, 289, 20);		
-		contentPane.add(textLocalArq);
-		textLocalArq.setColumns(10);
+		textArq = new JTextField();		
+		textArq.setBounds(20, 171, 289, 20);		
+		contentPane.add(textArq);
+		textArq.setColumns(10);
 		
 		JLabel lblSalvarLocal = new JLabel("Salvar em: ");
-		lblSalvarLocal.setBounds(20, 124, 63, 14);
+		lblSalvarLocal.setBounds(20, 251, 63, 14);
 		contentPane.add(lblSalvarLocal);
 		
-		textSalvarLocal = new JTextField();
-		textSalvarLocal.setBounds(84, 121, 289, 20);
-		contentPane.add(textSalvarLocal);
-		textSalvarLocal.setColumns(10);
+		textDiretorio = new JTextField();
+		textDiretorio.setBounds(20, 276, 289, 20);
+		contentPane.add(textDiretorio);
+		textDiretorio.setColumns(10);
 				
-		JButton btnSelect = new JButton("Select");
-		btnSelect.addActionListener(new ActionListener() {
+		JButton btnArq = new JButton("Buscar");
+		btnArq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser file = new JFileChooser();
 				file.setDialogTitle("Procurar arquivo");
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf");
 				file.setFileFilter(filter);
+				file.setAcceptAllFileFilterUsed(false);
 				int retorno = file.showOpenDialog(file);
 				
 				if(retorno == JFileChooser.APPROVE_OPTION) {
 					
 					File arq = file.getSelectedFile();
-					textLocalArq.setText(arq.getPath());
-					textLocalArq.setEnabled(false);
+					textArq.setText(arq.getPath());
+					textArq.setEnabled(false);
 				}
 			}
 		});
-		btnSelect.setBounds(433, 89, 85, 23);
-		contentPane.add(btnSelect);
+		btnArq.setBounds(115, 202, 85, 23);
+		contentPane.add(btnArq);
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				if(textNumero.getText() != null || textNome.getText() != null ){
+					
+					JOptionPane.showMessageDialog(null, "Não e permitido campo vazio!");
+					
+				}else {
+					
+					JOptionPane.showMessageDialog(null, "ok");
+				}
+				
 			}
 		});
-		btnSalvar.setBounds(222, 268, 106, 38);
+		btnSalvar.setBounds(115, 429, 106, 38);
 		contentPane.add(btnSalvar);
 		
-		JButton button = new JButton("Select");
-		button.addActionListener(new ActionListener() {
+		JButton btnDiretorio = new JButton("Buscar");
+		btnDiretorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JFileChooser destino = new JFileChooser();
@@ -151,13 +160,13 @@ public class CadPDF extends JFrame {
 				
 				if(retorn == JFileChooser.APPROVE_OPTION) {
 					File ende = destino.getSelectedFile();
-					textSalvarLocal.setText(ende.getPath());
-					textSalvarLocal.setEnabled(false);
+					textDiretorio.setText(ende.getPath());
+					textDiretorio.setEnabled(false);
 				}				
 			}
 		});
-		button.setBounds(397, 121, 87, 23);
-		contentPane.add(button);
+		btnDiretorio.setBounds(113, 307, 87, 23);
+		contentPane.add(btnDiretorio);
 		
 	}
 }

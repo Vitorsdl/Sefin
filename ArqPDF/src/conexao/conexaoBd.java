@@ -13,11 +13,11 @@ public class conexaoBd {
 	private static final String USER = "m1333984";
 	private static final String PASS = "Candido@21";
 	
-	public static conexaoBd getConnection() {
+	public static Connection getConnection() {
 		
 		try {
 			Class.forName(DRIVER);			
-			return (conexaoBd) DriverManager.getConnection(URL, USER, PASS);
+			return DriverManager.getConnection(URL, USER, PASS);
 			
 		} catch (ClassNotFoundException | SQLException ex) {
 			
@@ -70,7 +70,5 @@ public class conexaoBd {
 		
 		
 	}
-	
-	
 
 }
