@@ -18,7 +18,7 @@ public class pdfDAO {
 	
 	public boolean save(pdf pdf){
 		
-		String sql = "INSERT INTO pdf (numeroinc, nomeaqr, data, dataatl) values (?, ?, ?,?)";		
+		String sql = "INSERT INTO pdf (numeroinc, nomeaqr, data, dataatl) values (?, ?, ?, ?)";		
 		
 		PreparedStatement stmt = null;
 		
