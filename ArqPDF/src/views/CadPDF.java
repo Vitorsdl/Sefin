@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -9,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.bean.pdf;
+import model.dao.pdfDAO;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,7 +28,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
 
 public class CadPDF extends JFrame {
 
@@ -58,7 +57,7 @@ public class CadPDF extends JFrame {
 	public CadPDF() {
 		super("Cadastro PDF");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 243);
+		setBounds(100, 100, 518, 243);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -71,28 +70,27 @@ public class CadPDF extends JFrame {
 		lblDadosPdf.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		textNumero = new JTextField();
-		textNumero.setText("Numero de inscrição");
-		textNumero.setBounds(20, 52, 211, 20);		
+		textNumero.setBounds(20, 67, 211, 20);		
 		contentPane.add(textNumero);
 		textNumero.setColumns(10);
 		
 		textNome = new JTextField();
-		textNome.setText("Nome arquivo");
-		textNome.setBounds(20, 104, 211, 20);
+		textNome.setBounds(20, 106, 211, 20);
 		contentPane.add(textNome);
 		textNome.setColumns(10);
 		
 		
 		JLabel lblDataHora = new JLabel();
 		Date data = new Date();
-		DateFormat formatoData = new SimpleDateFormat("dd-MM-yy");
+		DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy");
 		lblDataHora.setText("Data: " + formatoData.format(data.getTime()));
 		GregorianCalendar gc = new GregorianCalendar();
         gc.add(Calendar.MINUTE,1);
-		lblDataHora.setBounds(347, 12, 87, 14);
+		lblDataHora.setBounds(388, 12, 99, 14);
 		contentPane.add(lblDataHora);
 				
 		JButton btnArq = new JButton("selecionar arquivo");
+		btnArq.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnArq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -106,44 +104,16 @@ public class CadPDF extends JFrame {
 				if(retorno == JFileChooser.APPROVE_OPTION) {
 					
 					File arq = file.getSelectedFile();
-					textArq.setText(arq.getPath());
-					textArq.setEnabled(false);
+					//textArq.setText(arq.getPath());
+					//textArq.setEnabled(false);
 				}
 			}
 		});
-		btnArq.setBounds(274, 51, 138, 23);
+		btnArq.setBounds(349, 66, 138, 23);
 		contentPane.add(btnArq);
 		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				/*pdf p = new pdf();
-				
-				p.setNumeroinc(Integer.parseInt(textNumero.getText()));
-				p.setNomeaqr(textNome.getText());
-				p.setData(new java.sql.Date(lblDataHora.getTime()));*/
-				
-				
-				/*textNome.setBorder(BorderFactory.createLineBorder(Color.RED));
-				
-				if(textNumero.getText().trim().equals("")){
-					
-					
-				}elsif( textNome.getText().trim().equals("")){
-					
-					
-				}else {
-					
-					
-				}*/
-				
-			}
-		});
-		btnSalvar.setBounds(306, 165, 106, 38);
-		contentPane.add(btnSalvar);
-		
 		JButton btnDiretorio = new JButton("selecionar diretorio");
+		btnDiretorio.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnDiretorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -154,13 +124,52 @@ public class CadPDF extends JFrame {
 				
 				if(retorn == JFileChooser.APPROVE_OPTION) {
 					File ende = destino.getSelectedFile();
-					textDiretorio.setText(ende.getPath());
-					textDiretorio.setEnabled(false);
+					//textDiretorio.setText(ende.getPath());
+					//textDiretorio.setEnabled(false);
 				}				
 			}
 		});
-		btnDiretorio.setBounds(274, 103, 138, 23);
-		contentPane.add(btnDiretorio);
+		btnDiretorio.setBounds(349, 103, 138, 23);
+		contentPane.add(btnDiretorio);		
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+								
+				if(textNumero.getText().trim().equals("")){
+					textNumero.setBorder(BorderFactory.createLineBorder(Color.RED)); //marca campo errado
+					 				
+					
+				}if( textNome.getText().trim().equals("")){
+					textNome.setBorder(BorderFactory.createLineBorder(Color.RED)); //marca campo errado
+					
+				}else {
+					pdf p = new pdf();
+					
+					p.setNumeroinc(Integer.parseInt(textNumero.getText()));
+					p.setNomeaqr(textNome.getText());
+					
+					pdfDAO dao = new pdfDAO();
+					
+					if(dao.save(p)) {
+						JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+						
+					}else {
+						JOptionPane.showMessageDialog(null, "Erro ao salvar.");
+					}					
+				}				
+			}
+		});
+		btnSalvar.setBounds(400, 173, 87, 30);
+		contentPane.add(btnSalvar);		
+		
+		JLabel lblNDeIncrio = new JLabel("N\u00BA de incri\u00E7\u00E3o");
+		lblNDeIncrio.setBounds(20, 51, 87, 14);
+		contentPane.add(lblNDeIncrio);
+		
+		JLabel lblNomeDoArquivo = new JLabel("Nome do arquivo");
+		lblNomeDoArquivo.setBounds(20, 90, 99, 14);
+		contentPane.add(lblNomeDoArquivo);
 		
 	}
 }

@@ -18,7 +18,7 @@ public class pdfDAO {
 	
 	public boolean save(pdf pdf){
 		
-		String sql = "INSERT INTO pdf (numeroinc, nomeaqr, data, dataatl) values (?, ?, ?, ?)";		
+		String sql = "INSERT INTO pdf (numeroinc, nomeaqr) values (?, ?)";		
 		
 		PreparedStatement stmt = null;
 		
@@ -26,7 +26,7 @@ public class pdfDAO {
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, pdf.getNumeroinc());
 			stmt.setString(2, pdf.getNomeaqr());
-			stmt.setDate(3, new java.sql.Date(pdf.getData().getTime()));
+			//stmt.setDate(3, new java.sql.Date(pdf.getData().getTime()));
 			stmt.executeUpdate();
 			return true;			
 		}catch (SQLException ex) {
