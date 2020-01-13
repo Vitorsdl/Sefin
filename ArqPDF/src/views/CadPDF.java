@@ -57,7 +57,7 @@ public class CadPDF extends JFrame {
 	public CadPDF() {
 		super("Cadastro PDF");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 518, 243);
+		setBounds(100, 100, 425, 240);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,7 +86,7 @@ public class CadPDF extends JFrame {
 		lblDataHora.setText("Data: " + formatoData.format(data.getTime()));
 		GregorianCalendar gc = new GregorianCalendar();
         gc.add(Calendar.MINUTE,1);
-		lblDataHora.setBounds(388, 12, 99, 14);
+		lblDataHora.setBounds(303, 12, 99, 14);
 		contentPane.add(lblDataHora);
 				
 		JButton btnArq = new JButton("selecionar arquivo");
@@ -96,41 +96,44 @@ public class CadPDF extends JFrame {
 				
 				JFileChooser file = new JFileChooser();
 				file.setDialogTitle("Procurar arquivo");
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf", "png", "jpeg");
 				file.setFileFilter(filter);
+				file.setMultiSelectionEnabled(true);
 				file.setAcceptAllFileFilterUsed(false);
+				
 				int retorno = file.showOpenDialog(file);
 				
 				if(retorno == JFileChooser.APPROVE_OPTION) {
-					
 					File arq = file.getSelectedFile();
-					//textArq.setText(arq.getPath());
-					//textArq.setEnabled(false);
+					
+					JTextField txtarq = new JTextField();
+					txtarq.setText(arq.getPath());
+					
+					//System.out.println(arq.length());
+					File[] files = file.getSelectedFiles();
+					System.out.println(files);
+					/*
+					for(int i=0; files < i; i++){
+					
+					String nome = arq.getName();
+					arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome);
+					}
+					
+					
+					
+					
+					*/
+					//String nome = arq.getName();
+													
+					//arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome ));
+					
+					//System.out.println("movido com sucesso");
+					
 				}
 			}
 		});
-		btnArq.setBounds(349, 66, 138, 23);
+		btnArq.setBounds(262, 86, 138, 23);
 		contentPane.add(btnArq);
-		
-		JButton btnDiretorio = new JButton("selecionar diretorio");
-		btnDiretorio.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnDiretorio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				JFileChooser destino = new JFileChooser();
-				destino.setDialogTitle("Selecione local");				
-				destino.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				int retorn = destino.showOpenDialog(destino);
-				
-				if(retorn == JFileChooser.APPROVE_OPTION) {
-					File ende = destino.getSelectedFile();
-					//textDiretorio.setText(ende.getPath());
-					//textDiretorio.setEnabled(false);
-				}				
-			}
-		});
-		btnDiretorio.setBounds(349, 103, 138, 23);
-		contentPane.add(btnDiretorio);		
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
@@ -138,13 +141,16 @@ public class CadPDF extends JFrame {
 								
 				if(textNumero.getText().trim().equals("")){
 					textNumero.setBorder(BorderFactory.createLineBorder(Color.RED)); //marca campo errado
+					JOptionPane.showMessageDialog(null, "Campo numero vazio!");
 					 				
 					
-				}if( textNome.getText().trim().equals("")){
+				}else if( textNome.getText().trim().equals("")){
 					textNome.setBorder(BorderFactory.createLineBorder(Color.RED)); //marca campo errado
+					JOptionPane.showMessageDialog(null, "Campo nome vazio!");
 					
-				}else {
-					pdf p = new pdf();
+				}else {							
+					
+					/*pdf p = new pdf();
 					
 					p.setNumeroinc(Integer.parseInt(textNumero.getText()));
 					p.setNomeaqr(textNome.getText());
@@ -156,11 +162,11 @@ public class CadPDF extends JFrame {
 						
 					}else {
 						JOptionPane.showMessageDialog(null, "Erro ao salvar.");
-					}					
+					}*/					
 				}				
 			}
 		});
-		btnSalvar.setBounds(400, 173, 87, 30);
+		btnSalvar.setBounds(303, 172, 87, 30);
 		contentPane.add(btnSalvar);		
 		
 		JLabel lblNDeIncrio = new JLabel("N\u00BA de incri\u00E7\u00E3o");

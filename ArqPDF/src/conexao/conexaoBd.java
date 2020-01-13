@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class conexaoBd {
 	
 	private static final String DRIVER = "com.microsoft.sqlserver.jdbc.Driver";
-	private static final String URL = "ati.goiania.go.gov.br"; //10.52.0.144
+	private static final String URL = "jdbc:sqlserver://10.52.0.144;databaseName=DW_SEFIN"; //ati.goiania.go.gov.br
 	private static final String USER = "m1333984";
 	private static final String PASS = "Candido@21";
 	
