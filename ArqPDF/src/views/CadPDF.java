@@ -34,6 +34,7 @@ public class CadPDF extends JFrame {
 	private JPanel contentPane;
 	private JTextField textNumero;
 	private JTextField textNome;
+	private String rt;
 
 	/**
 	 * Launch the application.
@@ -63,119 +64,122 @@ public class CadPDF extends JFrame {
 		setContentPane(contentPane);
 		setResizable(false);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblDadosPdf = new JLabel("Dados PDF");
 		lblDadosPdf.setBounds(10, 11, 87, 14);
 		contentPane.add(lblDadosPdf);
 		lblDadosPdf.setFont(new Font("Tahoma", Font.BOLD, 13));
-		
+
 		textNumero = new JTextField();
-		textNumero.setBounds(20, 67, 211, 20);		
+		textNumero.setBounds(20, 67, 211, 20);
 		contentPane.add(textNumero);
 		textNumero.setColumns(10);
-		
+
 		textNome = new JTextField();
 		textNome.setBounds(20, 106, 211, 20);
 		contentPane.add(textNome);
 		textNome.setColumns(10);
-		
-		
+
 		JLabel lblDataHora = new JLabel();
 		Date data = new Date();
 		DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy");
 		lblDataHora.setText("Data: " + formatoData.format(data.getTime()));
 		GregorianCalendar gc = new GregorianCalendar();
-        gc.add(Calendar.MINUTE,1);
+		gc.add(Calendar.MINUTE, 1);
 		lblDataHora.setBounds(303, 12, 99, 14);
 		contentPane.add(lblDataHora);
-				
+
+		// seleção de arquivo e envio a pasta
 		JButton btnArq = new JButton("selecionar arquivo");
 		btnArq.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnArq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				JFileChooser file = new JFileChooser();
 				file.setDialogTitle("Procurar arquivo");
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf", "png", "jpeg");
 				file.setFileFilter(filter);
 				file.setMultiSelectionEnabled(true);
 				file.setAcceptAllFileFilterUsed(false);
-				
+
 				int retorno = file.showOpenDialog(file);
-				
-				if(retorno == JFileChooser.APPROVE_OPTION) {
+
+				if (retorno == JFileChooser.APPROVE_OPTION) {
+
 					File arq = file.getSelectedFile();
-					
 					JTextField txtarq = new JTextField();
 					txtarq.setText(arq.getPath());
+					String nome = arq.getName();					
 					
-					//System.out.println(arq.length());
-					File[] files = file.getSelectedFiles();
-					System.out.println(files);
 					/*
-					for(int i=0; files < i; i++){
-					
-					String nome = arq.getName();
-					arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome);
-					}
-					
-					
-					
-					
-					*/
-					//String nome = arq.getName();
-													
-					//arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome ));
-					
-					//System.out.println("movido com sucesso");
-					
+					 * for(int i=0; files.length; i++){
+					 * 
+					 * arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome); }
+					 */
+
+					arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome));
+					rt = "Movido com sucesso";
+					System.out.println(rt);
+
+				} else {
+					rt = "Não movido";
+					System.out.println(rt);
 				}
+
 			}
 		});
-		btnArq.setBounds(262, 86, 138, 23);
+		btnArq.setBounds(257, 86, 138, 23);
 		contentPane.add(btnArq);
-		
+
+		// envio de informaçoes ao banco de dados
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-								
-				if(textNumero.getText().trim().equals("")){
-					textNumero.setBorder(BorderFactory.createLineBorder(Color.RED)); //marca campo errado
+
+				if (textNumero.getText().trim().equals("")) {
+					textNumero.setBorder(BorderFactory.createLineBorder(Color.RED)); // marca campo errado
 					JOptionPane.showMessageDialog(null, "Campo numero vazio!");
-					 				
-					
-				}else if( textNome.getText().trim().equals("")){
-					textNome.setBorder(BorderFactory.createLineBorder(Color.RED)); //marca campo errado
+
+				} else if (textNome.getText().trim().equals("")) {
+					textNumero.setBorder(BorderFactory.createLineBorder(null));// remove borda
+					textNome.setBorder(BorderFactory.createLineBorder(Color.RED));
 					JOptionPane.showMessageDialog(null, "Campo nome vazio!");
-					
-				}else {							
-					
-					/*pdf p = new pdf();
-					
-					p.setNumeroinc(Integer.parseInt(textNumero.getText()));
-					p.setNomeaqr(textNome.getText());
-					
-					pdfDAO dao = new pdfDAO();
-					
-					if(dao.save(p)) {
-						JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-						
-					}else {
-						JOptionPane.showMessageDialog(null, "Erro ao salvar.");
-					}*/					
-				}				
+
+				} else {
+					if (rt == "Movido com sucesso") {
+						textNome.setBorder(BorderFactory.createLineBorder(null));
+
+						/*
+						 * pdf p = new pdf();
+						 * 
+						 * p.setNumeroinc(Integer.parseInt(textNumero.getText()));
+						 * p.setNomeaqr(textNome.getText());
+						 * 
+						 * pdfDAO dao = new pdfDAO();
+						 * 
+						 * if(dao.save(p)) { JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+						 * 
+						 * }else { JOptionPane.showMessageDialog(null, "Erro ao salvar."); }
+						 */
+
+					} else {
+						textNome.setBorder(BorderFactory.createLineBorder(null));
+						JOptionPane.showMessageDialog(null, "Arquivo não selecionado!");
+					}
+
+				}
 			}
 		});
 		btnSalvar.setBounds(303, 172, 87, 30);
-		contentPane.add(btnSalvar);		
-		
+		contentPane.add(btnSalvar);
+
 		JLabel lblNDeIncrio = new JLabel("N\u00BA de incri\u00E7\u00E3o");
 		lblNDeIncrio.setBounds(20, 51, 87, 14);
 		contentPane.add(lblNDeIncrio);
-		
+
 		JLabel lblNomeDoArquivo = new JLabel("Nome do arquivo");
 		lblNomeDoArquivo.setBounds(20, 90, 99, 14);
 		contentPane.add(lblNomeDoArquivo);
-		
+
 	}
 }
