@@ -9,27 +9,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Rectangle;
-
+import Zip.ArquivoZip;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextPane;
-import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JList;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JOptionPane;
-import javax.swing.JEditorPane;
 import java.text.*;
-import java.io.File;
 import java.io.*;
 import java.util.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import java.io.IOException;
+
 import org.apache.commons.net.ftp.FTPClient;
 import java.util.Date;
 import java.awt.event.ActionListener;
@@ -37,9 +26,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-
 public class zip {
 	FTPClient ftp = new FTPClient();
+	Thread runner;
+	int i=0;
 	private JFrame frame;
 	private JTextField txtLogintext;
 	private JTextField txtDominiotext;
@@ -57,6 +47,7 @@ public class zip {
 				try {
 					zip window = new zip();
 					window.frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,13 +60,13 @@ public class zip {
 	 */
 	public zip() {
 		initialize();
-
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 548, 623);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,6 +111,10 @@ public class zip {
 		txtDirarqtext.setText("C:\\\\Users\\\\m1415425\\\\Documents\\\\Novapasta");
 		txtDirarqtext.setColumns(10);
 
+		JLabel lblStatus = new JLabel("Status: ");
+		lblStatus.setBounds(210, 350, 159, 14);
+		frame.getContentPane().add(lblStatus);
+
 		txtDirsalarqtext = new JTextField();
 		txtDirsalarqtext.setEnabled(false);
 		txtDirsalarqtext.setBounds(169, 140, 314, 20);
@@ -137,14 +132,13 @@ public class zip {
 		frame.getContentPane().add(diretorioSalvarArquivosLabel);
 		frame.getContentPane().add(txtDirarqtext);
 		frame.getContentPane().add(txtDirsalarqtext);
-		
 
 		JLabel horarioExecucaoLabel = new JLabel("Horário Execução: --:--:--");
-		horarioExecucaoLabel.setBounds(113, 245, 370, 14);
+		horarioExecucaoLabel.setBounds(113, 224, 370, 14);
 		frame.getContentPane().add(horarioExecucaoLabel);
 
 		JLabel proximaExecucaoLabel = new JLabel("Próxima Execução: --:--:--");
-		proximaExecucaoLabel.setBounds(113, 270, 370, 14);
+		proximaExecucaoLabel.setBounds(113, 238, 370, 14);
 		frame.getContentPane().add(proximaExecucaoLabel);
 
 		JLabel logsLabel = new JLabel("Salvar Logs de Envio:");
@@ -158,7 +152,7 @@ public class zip {
 		txtLogs.setBounds(169, 171, 314, 20);
 		frame.getContentPane().add(txtLogs);
 		txtLogs.setColumns(10);
-		
+
 		JTextArea txtArqEnviados = new JTextArea();
 		txtArqEnviados.setEditable(false);
 		txtArqEnviados.setBounds(113, 374, 314, 199);
@@ -166,77 +160,98 @@ public class zip {
 		JScrollPane jScrollPane = new JScrollPane();
 		jScrollPane = new JScrollPane(txtArqEnviados);
 		jScrollPane.setBounds(new Rectangle(113, 374, 314, 199)); // tamanho do jScrollPane
-		jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); // só mostra a barra vertical																			// se necessário
-		jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // nunca mostra a barra de
-																							// rolagem horizontal
+		jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED); // só mostra a barra
+																									// vertical // se
+																									// necessário
+		jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); // nunca mostra a
+																									// barra de //
+																									// rolagem
+																									// horizontal
 		txtArqEnviados.setWrapStyleWord(true);
 		txtArqEnviados.setLineWrap(true); // quebra a linha
 		txtArqEnviados.getText();
 		frame.getContentPane().add(jScrollPane);
-		
-		JButton enviarBotao = new JButton("Enviar");//Botao Enviar
+
+		JButton enviarBotao = new JButton("Enviar");// Botao Enviar
 		enviarBotao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtArqEnviados.setText("");
 				txtDirarqtext.setEnabled(false);
 				txtDirsalarqtext.setEnabled(false);
 				txtLogs.setEnabled(false);
-				//Declaração de váriaveis necessárias
+				enviarBotao.setEnabled(false);
+				i++;
+				// Declaração de váriaveis necessárias
 				Date date = new Date();
-                Calendar data = Calendar.getInstance();
-                DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy_HH-mm");
-                GregorianCalendar gc = new java.util.GregorianCalendar();
-                File arquivoEscrita = new File(txtLogs.getText().toString()+ formatoData.format(data.getTime()) + "_log.txt");
-				File arquivos[];
-				//{
-                File diretorio = new File(txtDirarqtext.getText().toString());
-                arquivos = diretorio.listFiles();
-                for (File arquivo : arquivos) 
-					txtArqEnviados.append(arquivo.getName()+"     "+arquivo.length()+"bytes"+"\n");
-                horarioExecucaoLabel.setText("Horário execução: " + date);
-                gc.add(Calendar.MINUTE, 15);
-				proximaExecucaoLabel.setText("Próxima execução: " + gc.getTime());
-
-                try (FileWriter fileWrite = new FileWriter(arquivoEscrita) //arquivo para escrita
-                ) {
-                    for (File arquivo : arquivos) {
-                        fileWrite.write(arquivo.getName()+"\n");
-                    }
-                } catch (IOException e1) {
+				FileInputStream arqEnviar = null;
+				try {
+					arqEnviar = new FileInputStream(txtDirsalarqtext.getText().toString());
+				} catch (FileNotFoundException e3) {
 					// TODO Auto-generated catch block
+					e3.printStackTrace();
+				}
+				Calendar data = Calendar.getInstance();
+				DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy_HH-mm");
+				GregorianCalendar gc = new java.util.GregorianCalendar();
+
+				File arquivos[];
+
+				File diretorio = new File(txtDirarqtext.getText().toString());// Pega os arquivos
+				arquivos = diretorio.listFiles();
+				for (File arquivo : arquivos)
+					txtArqEnviados.append(arquivo.getName() + "     " + arquivo.length() + " bytes"+"   "+i + "\n");
+				horarioExecucaoLabel.setText("Horário execução: " + date);
+				gc.add(Calendar.MINUTE, 15);
+				proximaExecucaoLabel.setText("Próxima execução: " + gc.getTime());
+				try {
+					ArquivoZip.compactarParaZip(txtDirsalarqtext.getText().toString(), arquivos, arquivos.length);
+					if (ftp.storeFile("Arquivo.zip", arqEnviar))
+						lblStatus.setText("Status: Enviado");
+					else
+						lblStatus.setText("Status: Não Enviado");
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+				File arquivoEscrita = new File(
+						txtLogs.getText().toString() + formatoData.format(data.getTime()) + "_log.txt");
+				try (FileWriter fileWrite = new FileWriter(arquivoEscrita) // arquivo para escrita
+				) {
+					for (File arquivo : arquivos) {
+						fileWrite.write(arquivo.getName() + "\n");
+					}
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
+			
 		});
 		enviarBotao.setEnabled(false);
-		enviarBotao.setBounds(180, 329, 122, 23);
-		
-		JButton desconectarBotao = new JButton("Desconectar");//Botão desconectar
-		JButton conectarBotao = new JButton("Conectar");//Botão conectar
+		enviarBotao.setBounds(180, 297, 122, 23);
+
+		JButton desconectarBotao = new JButton("Desconectar");// Botão desconectar
+		JButton conectarBotao = new JButton("Conectar");// Botão conectar
 		conectarBotao.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if (txtDominiotext.getText().trim().equals(""))//Verifica se o campo dominio está vazio
+					if (txtDominiotext.getText().trim().equals(""))// Verifica se o campo dominio está vazio
 					{
-						JOptionPane.showMessageDialog(null, "CAMPO DOMINIO VAZIO!", "ALERTA!",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "CAMPO DOMINIO VAZIO!", "ALERTA!",
+								JOptionPane.ERROR_MESSAGE);
 						txtDominiotext.setBorder(BorderFactory.createLineBorder(Color.RED));
-					}
-					else if (txtLogintext.getText().trim().equals(""))//Verifica se o campo login está vazio
+					} else if (txtLogintext.getText().trim().equals(""))// Verifica se o campo login está vazio
 					{
 						JOptionPane.showMessageDialog(null, "CAMPO LOGIN VAZIO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
 						txtLogintext.setBorder(BorderFactory.createLineBorder(Color.RED));
-					}
-					else if (pwdSenhatext.getText().trim().equals(""))//Verifica se o campo senha está vazio
+					} else if (pwdSenhatext.getText().trim().equals(""))// Verifica se o campo senha está vazio
 					{
 						JOptionPane.showMessageDialog(null, "CAMPO SENHA VAZIO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
 						pwdSenhatext.setBorder(BorderFactory.createLineBorder(Color.RED));
-					}
-					else {
-						//realiza a conexão
+					} else {
+						// realiza a conexão
 						ftp.connect(txtDominiotext.getText().toString());
 						ftp.login(txtLogintext.getText().toString(), pwdSenhatext.getText().toString());
-						//Habilita e desabilita funcionalidades da tela
+						// Habilita e desabilita funcionalidades da tela
 						JOptionPane.showMessageDialog(null, "SERVIÇO CONECTADO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
 						txtDirarqtext.setEnabled(true);
 						txtDirsalarqtext.setEnabled(true);
@@ -257,13 +272,13 @@ public class zip {
 				}
 			}
 		});
-		conectarBotao.setBounds(108, 295, 122, 23);
-		
-		
-		desconectarBotao.setEnabled(false);//Botão Desconectar
+		conectarBotao.setBounds(113, 263, 122, 23);
+
+		desconectarBotao.setEnabled(false);// Botão Desconectar
 		desconectarBotao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+
 					ftp.logout();
 					ftp.disconnect();
 					txtDominiotext.setEnabled(true);
@@ -278,17 +293,19 @@ public class zip {
 					statusConexaoLabel.setText("Status: OFFILINE");
 					horarioExecucaoLabel.setText("Horário Execução: --:--:--");
 					proximaExecucaoLabel.setText("Próxima Execução: --:--:--");
+					lblStatus.setText("Status: ");
 				} catch (IOException f) {
 					JOptionPane.showMessageDialog(null, "SERVIÇO DESCONECTADO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
-		desconectarBotao.setBounds(247, 295, 122, 23);
+		desconectarBotao.setBounds(247, 263, 122, 23);
 		frame.getContentPane().add(conectarBotao);
 		frame.getContentPane().add(desconectarBotao);
 		frame.getContentPane().add(enviarBotao);
-		
-		
 
 	}
+	
 }
+
+

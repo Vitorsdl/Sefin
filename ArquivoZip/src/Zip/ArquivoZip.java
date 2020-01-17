@@ -2,19 +2,16 @@ package Zip;
 
 import java.io.File;
 import java.io.*;
-import java.util.*;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.io.IOException;
-import org.apache.commons.net.ftp.FTPClient;
-import java.util.Date;
-import janela.zip;
 
 public class ArquivoZip {
 	
-static final int TAMANHO_BUFFER = 20480; // 20kb
+static final int TAMANHO_BUFFER = 1024*20; // 20kb
     
     public static void compactarParaZip(String arqSaida, File[] arqEntrada, int tam) throws IOException {
         FileOutputStream destino;
@@ -41,48 +38,5 @@ static final int TAMANHO_BUFFER = 20480; // 20kb
             saida.write(dados, 0, cont);
         origem.close();
     }
-
-    public static void main(String[] args) throws Exception  {
-        short t=0;
-        //new ArquivoTela().setVisible(true);
-        long tempoDeEspera=6000;//900000
-        File arquivos[];
-        File diretorio = new File("C:\\Users\\m1415425\\Documents\\Novapasta");
-        FTPClient ftp = new FTPClient();
-        
-        if(ftp.isConnected())
-            System.out.println("Conectado");
-        else 
-            System.out.println("Não Conectado");
-
-        FileInputStream arqEnviar = new FileInputStream("C:\\Users\\m1415425\\Documents\\Zip\\Arquivo.zip");
-        
-        while(t != 1){
-        ftp.connect("10.52.1.102");
-        ftp.login("tempftp", "comdata");
-        arquivos = diretorio.listFiles();
-        for (int i = 0; i < arquivos.length; i++)
-            System.out.println(arquivos[i].toString());
-
-        compactarParaZip("C:\\Users\\m1415425\\Documents\\Zip\\Arquivo.zip", arquivos, arquivos.length);
-
-        
-        if (ftp.storeFile("Arquivo.zip", arqEnviar))
-            System.out.println("Arquivo armazenado com sucesso!");
-        else 
-            System.out.println("Erro ao armazenar o arquivo.");
-        ftp.logout();
-        ftp.disconnect();
-        System.out.println("Disconnected!");
-        
-        Date date = new Date();
-        System.out.println("Horário execução: "+date);
-        GregorianCalendar gc = new java.util.GregorianCalendar();
-        gc.add(Calendar.MINUTE,1);
-        System.out.println("Próxima execução: "+gc.getTime());
-        
-        Thread.sleep(tempoDeEspera);
-    }
-    }
-
+   
 }
