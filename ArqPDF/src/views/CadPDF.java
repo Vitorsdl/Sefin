@@ -106,18 +106,12 @@ public class CadPDF extends JFrame {
 
 				if (retorno == JFileChooser.APPROVE_OPTION) {
 
-					File arq = file.getSelectedFile();
-					JTextField txtarq = new JTextField();
-					txtarq.setText(arq.getPath());
-					String nome = arq.getName();					
+					File[] arq = file.getSelectedFiles();
+					for(int i =0; arq.length > i; i++) {
+						String nome = arq[i].getName();						
+						arq[i].renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome));																		
+					}
 					
-					/*
-					 * for(int i=0; files.length; i++){
-					 * 
-					 * arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome); }
-					 */
-
-					arq.renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome));
 					rt = "Movido com sucesso";
 					System.out.println(rt);
 
@@ -149,18 +143,18 @@ public class CadPDF extends JFrame {
 					if (rt == "Movido com sucesso") {
 						textNome.setBorder(BorderFactory.createLineBorder(null));
 
-						/*
-						 * pdf p = new pdf();
-						 * 
-						 * p.setNumeroinc(Integer.parseInt(textNumero.getText()));
-						 * p.setNomeaqr(textNome.getText());
-						 * 
-						 * pdfDAO dao = new pdfDAO();
-						 * 
-						 * if(dao.save(p)) { JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-						 * 
-						 * }else { JOptionPane.showMessageDialog(null, "Erro ao salvar."); }
-						 */
+
+						pdf p = new pdf();
+
+						p.setNumeroinc(Integer.parseInt(textNumero.getText()));
+						p.setNomeaqr(textNome.getText());
+
+						pdfDAO dao = new pdfDAO();
+
+						if(dao.save(p)) { JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+
+						}else { JOptionPane.showMessageDialog(null, "Erro ao salvar."); }
+
 
 					} else {
 						textNome.setBorder(BorderFactory.createLineBorder(null));
