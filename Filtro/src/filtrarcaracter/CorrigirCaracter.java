@@ -13,7 +13,7 @@ public class CorrigirCaracter {
 			/**
 			 * Leitura do arquivo;
 			 */
-			FileInputStream arquivo1 = new FileInputStream ("dados2.txt");
+			FileInputStream arquivo1 = new FileInputStream ("dados.txt");
 			InputStreamReader iSR = new InputStreamReader (arquivo1);
 			BufferedReader bR = new BufferedReader (iSR);
 			/**
