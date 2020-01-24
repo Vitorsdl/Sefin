@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,11 +8,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.awt.event.ActionEvent;
 
 public class Consulta extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textBusca;
 	private JTextField textNum;
 	private JTextField textNom;
 	private JTextField textDat;
@@ -37,6 +40,34 @@ public class Consulta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	/*public boolean ProcuraArq (textBusca.) {
+		boolean arqui = false;
+		String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
+		File file = new File(dir);
+
+		if (file.exists() && file.isDirectory()) {
+
+			// coloca no array de String o nome de todos os arquivos encontrados no diretorio
+			String[] nomesArquivo = file.list();
+			// vai varer todo o array
+			for (int i = 0; i < nomesArquivo.length; i++) {
+				String nomeArquivo = nomesArquivo[i];
+
+				// verifica se o nome do arquivo começa pelo no do arquivo passar como parametro
+				if (nomeArquivo.startsWith("Planilha 1")) {
+					arqui = true;
+					String arquivo = nomeArquivo;
+
+				}
+
+			}
+
+		}
+		return arqui;
+	}*/
+	
+	
 	public Consulta() {
 		super("Consulta");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,10 +78,10 @@ public class Consulta extends JFrame {
 		setResizable(false);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(24, 21, 189, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textBusca = new JTextField();
+		textBusca.setBounds(34, 11, 189, 20);
+		contentPane.add(textBusca);
+		textBusca.setColumns(10);
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setBounds(24, 70, 46, 14);
@@ -65,7 +96,36 @@ public class Consulta extends JFrame {
 		contentPane.add(lblData);
 		
 		JButton btnConsultar = new JButton("Consultar");
-		btnConsultar.setBounds(234, 20, 89, 23);
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean arqui = false;
+				String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
+				File file = new File(dir);
+				if (file.exists() && file.isDirectory()) {
+
+					// coloca no array de String o nome de todos os arquivos encontrados no diretorio
+					String[] nomesArquivo = file.list();
+					// vai varer todo o array
+					for (int i = 0; i < nomesArquivo.length; i++) {
+						String nomeArquivo = nomesArquivo[i];
+
+						// verifica se o nome do arquivo começa pelo no do arquivo passar como parametro
+						if (nomeArquivo.startsWith(textBusca.getText().toString())) {
+							arqui = true;
+							String arquivo = nomeArquivo;
+							
+							System.out.println("achado!");
+
+						}else {
+							System.out.println("Não achado!");
+						}
+					}
+
+				}
+				
+			}
+		});
+		btnConsultar.setBounds(259, 41, 89, 23);
 		contentPane.add(btnConsultar);
 		
 		JButton btnAbrir = new JButton("Abrir arquivo");
@@ -89,5 +149,11 @@ public class Consulta extends JFrame {
 		textDat.setBounds(55, 117, 86, 20);
 		contentPane.add(textDat);
 		textDat.setColumns(10);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(233, 11, 94, 20);
+		contentPane.add(comboBox);		
+		comboBox.addItem("Nome");
+		comboBox.addItem("Numero");
 	}
 }
