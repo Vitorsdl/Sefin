@@ -28,8 +28,6 @@ import javax.swing.SwingConstants;
 
 public class zip {
 	FTPClient ftp = new FTPClient();
-	Thread runner;
-	int i=0;
 	private JFrame frame;
 	private JTextField txtLogintext;
 	private JTextField txtDominiotext;
@@ -37,6 +35,7 @@ public class zip {
 	private JTextField txtDirarqtext;
 	private JTextField txtDirsalarqtext;
 	private JTextField txtLogs;
+	private JTextField txtArqCorrigido;
 
 	/**
 	 * Launch the application.
@@ -66,9 +65,9 @@ public class zip {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+
 		frame = new JFrame();
-		frame.setBounds(100, 100, 548, 623);
+		frame.setBounds(100, 100, 674, 623);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel statusConexaoLabel = new JLabel("Status: OFFILINE");
@@ -85,16 +84,29 @@ public class zip {
 		senhaLabel.setBounds(245, 80, 41, 14);
 
 		JLabel diretorioLabel = new JLabel("Diretorio de Arquivos: ");
-		diretorioLabel.setBounds(40, 112, 130, 14);
+		diretorioLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		diretorioLabel.setBounds(40, 112, 176, 14);
 
 		JLabel diretorioSalvarArquivosLabel = new JLabel("Diretorio Salvar Arquivo.zip: ");
-		diretorioSalvarArquivosLabel.setBounds(10, 143, 160, 14);
+		diretorioSalvarArquivosLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		diretorioSalvarArquivosLabel.setBounds(10, 143, 206, 14);
 
 		txtLogintext = new JTextField();
 		txtLogintext.setText("tempftp");
 		txtLogintext.setBounds(123, 77, 117, 20);
 		txtLogintext.setColumns(10);
 
+		txtArqCorrigido = new JTextField();
+		txtArqCorrigido.setText("C:\\\\Users\\\\m1415425\\\\Documents\\\\Novapasta2");
+		txtArqCorrigido.setBounds(226, 168, 314, 20);
+		frame.getContentPane().add(txtArqCorrigido);
+		txtArqCorrigido.setColumns(10);
+		
+		JLabel lblArqCorrigidos = new JLabel("Diretorio Salvar Arquivos Corrigidos:");
+		lblArqCorrigidos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblArqCorrigidos.setBounds(10, 171, 206, 14);
+		frame.getContentPane().add(lblArqCorrigidos);
+		
 		txtDominiotext = new JTextField();
 		txtDominiotext.setBounds(113, 46, 298, 20);
 		txtDominiotext.setText("10.52.1.102");
@@ -107,7 +119,7 @@ public class zip {
 
 		txtDirarqtext = new JTextField();
 		txtDirarqtext.setEnabled(false);
-		txtDirarqtext.setBounds(169, 109, 314, 20);
+		txtDirarqtext.setBounds(226, 109, 314, 20);
 		txtDirarqtext.setText("C:\\\\Users\\\\m1415425\\\\Documents\\\\Novapasta");
 		txtDirarqtext.setColumns(10);
 
@@ -117,7 +129,7 @@ public class zip {
 
 		txtDirsalarqtext = new JTextField();
 		txtDirsalarqtext.setEnabled(false);
-		txtDirsalarqtext.setBounds(169, 140, 314, 20);
+		txtDirsalarqtext.setBounds(226, 140, 314, 20);
 		txtDirsalarqtext.setText("C:\\\\Users\\\\m1415425\\\\Documents\\\\Zip\\\\Arquivo.zip");
 		txtDirsalarqtext.setColumns(10);
 		frame.getContentPane().setLayout(null);
@@ -142,20 +154,21 @@ public class zip {
 		frame.getContentPane().add(proximaExecucaoLabel);
 
 		JLabel logsLabel = new JLabel("Salvar Logs de Envio:");
+		logsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		logsLabel.setVerticalAlignment(SwingConstants.TOP);
-		logsLabel.setBounds(10, 174, 149, 17);
+		logsLabel.setBounds(10, 196, 206, 17);
 		frame.getContentPane().add(logsLabel);
 
 		txtLogs = new JTextField();
 		txtLogs.setText("C:\\\\Users\\\\m1415425\\\\Documents\\\\Zip\\\\");
 		txtLogs.setEnabled(false);
-		txtLogs.setBounds(169, 171, 314, 20);
+		txtLogs.setBounds(226, 193, 314, 20);
 		frame.getContentPane().add(txtLogs);
 		txtLogs.setColumns(10);
 
 		JTextArea txtArqEnviados = new JTextArea();
 		txtArqEnviados.setEditable(false);
-		txtArqEnviados.setBounds(113, 374, 314, 199);
+		txtArqEnviados.setBounds(299, 44, 314, 199);
 		frame.getContentPane().add(txtArqEnviados);
 		JScrollPane jScrollPane = new JScrollPane();
 		jScrollPane = new JScrollPane(txtArqEnviados);
@@ -176,54 +189,85 @@ public class zip {
 		enviarBotao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtArqEnviados.setText("");
-				txtDirarqtext.setEnabled(false);
-				txtDirsalarqtext.setEnabled(false);
-				txtLogs.setEnabled(false);
-				enviarBotao.setEnabled(false);
-				i++;
-				// Declaração de váriaveis necessárias
-				Date date = new Date();
-				FileInputStream arqEnviar = null;
-				try {
-					arqEnviar = new FileInputStream(txtDirsalarqtext.getText().toString());
-				} catch (FileNotFoundException e3) {
-					// TODO Auto-generated catch block
-					e3.printStackTrace();
-				}
-				Calendar data = Calendar.getInstance();
-				DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy_HH-mm");
-				GregorianCalendar gc = new java.util.GregorianCalendar();
+				
 
-				File arquivos[];
+				if (txtDirarqtext.getText().trim().equals(""))// Verifica se o campo dominio está vazio
+				{
+					JOptionPane.showMessageDialog(null, "CAMPO DIRETORIO LOCALIZAÇÃO DOS ARQUIVOS VÁZIO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
+					txtDirarqtext.setBorder(BorderFactory.createLineBorder(Color.RED));
+				} else if (txtDirsalarqtext.getText().trim().equals(""))// Verifica se o campo login está vazio
+				{
+					JOptionPane.showMessageDialog(null, "CAMPO DIRETORIO SALVAR O ARQUIVO .ZIP VÁZIO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
+					txtDirsalarqtext.setBorder(BorderFactory.createLineBorder(Color.RED));
+				} else if (txtLogs.getText().trim().equals(""))// Verifica se o campo senha está vazio
+				{
+					JOptionPane.showMessageDialog(null, "CAMPO DIRETORIO SALVAR OS ARQUIVOS LOGS VÁZIO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
+					txtLogs.setBorder(BorderFactory.createLineBorder(Color.RED));
+				} else if (txtArqCorrigido.getText().trim().equals("")) {
+				JOptionPane.showMessageDialog(null, "CAMPO DIRETORIO SALVAR OS ARQUIVOS CORRIGIDOS VÁZIO!", "ALERTA!", JOptionPane.ERROR_MESSAGE);
+					txtArqCorrigido.setBorder(BorderFactory.createLineBorder(Color.RED));
+					
+				}else {
+					enviarBotao.setEnabled(false);
+					txtDirarqtext.setEnabled(false);
+					txtDirsalarqtext.setEnabled(false);
+					txtLogs.setEnabled(false);
+					txtArqCorrigido.setEnabled(false);
+					txtArqCorrigido.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					txtLogs.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					txtDirarqtext.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					txtDirsalarqtext.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					// Declaração de váriaveis necessárias
+					Date date = new Date();
+					FileInputStream arqEnviar = null;
+					Calendar data = Calendar.getInstance();
+					DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy_HH-mm");
+					GregorianCalendar gc = new java.util.GregorianCalendar();
 
-				File diretorio = new File(txtDirarqtext.getText().toString());// Pega os arquivos
-				arquivos = diretorio.listFiles();
-				for (File arquivo : arquivos)
-					txtArqEnviados.append(arquivo.getName() + "     " + arquivo.length() + " bytes"+"   "+i + "\n");
-				horarioExecucaoLabel.setText("Horário execução: " + date);
-				gc.add(Calendar.MINUTE, 15);
-				proximaExecucaoLabel.setText("Próxima execução: " + gc.getTime());
-				try {
-					ArquivoZip.compactarParaZip(txtDirsalarqtext.getText().toString(), arquivos, arquivos.length);
-					if (ftp.storeFile("Arquivo.zip", arqEnviar))
-						lblStatus.setText("Status: Enviado");
-					else
-						lblStatus.setText("Status: Não Enviado");
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
-				File arquivoEscrita = new File(
-						txtLogs.getText().toString() + formatoData.format(data.getTime()) + "_log.txt");
-				try (FileWriter fileWrite = new FileWriter(arquivoEscrita) // arquivo para escrita
-				) {
+					File arquivos[];
+					File diretorio;
+					diretorio = new File(txtDirarqtext.getText().toString());// Pega os arquivos
+					arquivos = diretorio.listFiles();
+					//Correção
+					int i=0;
 					for (File arquivo : arquivos) {
-						fileWrite.write(arquivo.getName() + "\n");
+						ArquivoZip.correcao(arquivo.getAbsolutePath(), txtArqCorrigido.getText().toString(),i);
+						i++;
 					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					diretorio = new File(txtArqCorrigido.getText().toString());// Pega os arquivos
+					arquivos = diretorio.listFiles();
+					for (File arquivo : arquivos)
+						txtArqEnviados.append(arquivo.getName().toString() + "     " + arquivo.length() + " bytes" + "\n");
+					try {
+						arqEnviar = new FileInputStream(txtArqCorrigido.getText().toString());
+					} catch (FileNotFoundException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					}
+					horarioExecucaoLabel.setText("Horário execução: " + date);
+					gc.add(Calendar.MINUTE, 15);
+					proximaExecucaoLabel.setText("Próxima execução: " + gc.getTime());
+					try {
+						ArquivoZip.compactarParaZip(txtDirsalarqtext.getText().toString(), arquivos, arquivos.length);
+						if (ftp.storeFile("Arquivo.zip", arqEnviar))
+							lblStatus.setText("Status: Enviado");
+						else
+							lblStatus.setText("Status: Não Enviado");
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
+					File arquivoEscrita = new File(txtLogs.getText().toString() + formatoData.format(data.getTime()) + "_log.txt");
+					try (FileWriter fileWrite = new FileWriter(arquivoEscrita) // arquivo para escrita
+					) {
+						for (File arquivo : arquivos) {
+							fileWrite.write(arquivo.getName() + "\n");
+						}
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
-			
+
 		});
 		enviarBotao.setEnabled(false);
 		enviarBotao.setBounds(180, 297, 122, 23);
@@ -278,7 +322,6 @@ public class zip {
 		desconectarBotao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-
 					ftp.logout();
 					ftp.disconnect();
 					txtDominiotext.setEnabled(true);
@@ -288,6 +331,7 @@ public class zip {
 					txtDirarqtext.setEnabled(false);
 					txtDirsalarqtext.setEnabled(false);
 					txtLogs.setEnabled(false);
+					txtArqCorrigido.setEnabled(false);
 					desconectarBotao.setEnabled(false);
 					enviarBotao.setEnabled(false);
 					statusConexaoLabel.setText("Status: OFFILINE");
@@ -303,9 +347,8 @@ public class zip {
 		frame.getContentPane().add(conectarBotao);
 		frame.getContentPane().add(desconectarBotao);
 		frame.getContentPane().add(enviarBotao);
+		
+
 
 	}
-	
 }
-
-
