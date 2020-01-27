@@ -1,5 +1,6 @@
 package conexao;
 
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,20 +9,17 @@ import java.sql.SQLException;
 
 public class conexaoBd {
 	
-	private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";//com.microsoft.sqlserver.jdbc.Driver
-	private static final String URL = "jdbc:sqlserver://10.52.0.144:1433;databaseName=DW_SEFIN"; //ati.goiania.go.gov.br
+	private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private static final String URL = "jdbc:sqlserver://10.52.0.144:1433;databaseName=DW_SEFIN";
 	private static final String USER = "m1415425";
 	private static final String PASS = "8218";
-	//String usuario = "hsegura_gerente";
-	//String senha = "123456";
-	//private static final String url = "jdbc:sqlserver://10.52.0.144:1433;databaseName=DW_SEFIN" +";user=" + USER + ";password=" + PASS + ";";
+	
 	public static Connection getConnection() {
-		System.out.print("oie");
 		try {
-			Class.forName(DRIVER);			
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
 			return DriverManager.getConnection(URL, USER, PASS);
 			
-		} catch (ClassNotFoundException | SQLException ex) {
+		} catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
 			
 			throw new RuntimeException("Erro na conexão", ex);
 		}

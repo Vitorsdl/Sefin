@@ -18,14 +18,14 @@ public class pdfDAO {
 	
 	public boolean save(pdf pdf){
 		
-		String sql = "INSERT INTO pdf (numeroinc, nomeaqr) values (?, ?)";		
+		String sql = "INSERT INTO pdf (numr_inscricao, nome_arquivo) values (?, ?)";		
 		
 		PreparedStatement stmt = null;
 		
 		try {
 			stmt = con.prepareStatement(sql);
-			stmt.setInt(1, pdf.getNumeroinc());
-			stmt.setString(2, pdf.getNomeaqr());
+			stmt.setInt(1, pdf.getNumr_inscricao());
+			stmt.setString(2, pdf.getNome_arquivo());
 			//stmt.setDate(3, new java.sql.Date(pdf.getData().getTime()));
 			stmt.executeUpdate();
 			return true;			

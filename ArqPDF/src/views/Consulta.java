@@ -1,7 +1,6 @@
 package views;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class Consulta extends JFrame {
@@ -20,11 +20,12 @@ public class Consulta extends JFrame {
 	private JTextField textNum;
 	private JTextField textNom;
 	private JTextField textDat;
+	private String lc;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -35,38 +36,11 @@ public class Consulta extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
 	 */
-	
-	/*public boolean ProcuraArq (textBusca.) {
-		boolean arqui = false;
-		String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
-		File file = new File(dir);
-
-		if (file.exists() && file.isDirectory()) {
-
-			// coloca no array de String o nome de todos os arquivos encontrados no diretorio
-			String[] nomesArquivo = file.list();
-			// vai varer todo o array
-			for (int i = 0; i < nomesArquivo.length; i++) {
-				String nomeArquivo = nomesArquivo[i];
-
-				// verifica se o nome do arquivo começa pelo no do arquivo passar como parametro
-				if (nomeArquivo.startsWith("Planilha 1")) {
-					arqui = true;
-					String arquivo = nomeArquivo;
-
-				}
-
-			}
-
-		}
-		return arqui;
-	}*/
-	
 	
 	public Consulta() {
 		super("Consulta");
@@ -76,12 +50,8 @@ public class Consulta extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setResizable(false);
+		this.setLocationRelativeTo(null);
 		contentPane.setLayout(null);
-		
-		textBusca = new JTextField();
-		textBusca.setBounds(34, 11, 189, 20);
-		contentPane.add(textBusca);
-		textBusca.setColumns(10);
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setBounds(24, 70, 46, 14);
@@ -95,42 +65,16 @@ public class Consulta extends JFrame {
 		lblData.setBounds(24, 120, 46, 14);
 		contentPane.add(lblData);
 		
-		JButton btnConsultar = new JButton("Consultar");
-		btnConsultar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean arqui = false;
-				String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
-				File file = new File(dir);
-				if (file.exists() && file.isDirectory()) {
-
-					// coloca no array de String o nome de todos os arquivos encontrados no diretorio
-					String[] nomesArquivo = file.list();
-					// vai varer todo o array
-					for (int i = 0; i < nomesArquivo.length; i++) {
-						String nomeArquivo = nomesArquivo[i];
-
-						// verifica se o nome do arquivo começa pelo no do arquivo passar como parametro
-						if (nomeArquivo.startsWith(textBusca.getText().toString())) {
-							arqui = true;
-							String arquivo = nomeArquivo;
-							
-							System.out.println("achado!");
-
-						}else {
-							System.out.println("Não achado!");
-						}
-					}
-
-				}
-				
-			}
-		});
-		btnConsultar.setBounds(259, 41, 89, 23);
-		contentPane.add(btnConsultar);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(233, 11, 94, 20);
+		contentPane.add(comboBox);		
+		comboBox.addItem("Nome");
+		comboBox.addItem("Numero");
 		
-		JButton btnAbrir = new JButton("Abrir arquivo");
-		btnAbrir.setBounds(120, 145, 120, 32);
-		contentPane.add(btnAbrir);
+		textBusca = new JTextField();
+		textBusca.setBounds(34, 11, 189, 20);
+		contentPane.add(textBusca);
+		textBusca.setColumns(10);
 		
 		textNum = new JTextField();
 		textNum.setEnabled(false);
@@ -150,10 +94,56 @@ public class Consulta extends JFrame {
 		contentPane.add(textDat);
 		textDat.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(233, 11, 94, 20);
-		contentPane.add(comboBox);		
-		comboBox.addItem("Nome");
-		comboBox.addItem("Numero");
+		JButton btnConsultar = new JButton("Consultar");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean arqui = false;
+				String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
+				File file = new File(dir);
+				if (file.exists() && file.isDirectory()) {
+
+					// coloca no array de String o nome de todos os arquivos encontrados no diretorio
+					String[] nomesArquivo = file.list();
+					// vai varer todo o array
+					for (int i = 0; i < nomesArquivo.length; i++) {
+						String nomeArquivo = nomesArquivo[i];
+
+						// verifica se o nome do arquivo começa pelo no do arquivo passar como parametro
+						if (nomeArquivo.startsWith(textBusca.getText().toString())) {
+							arqui = true;
+							String arquivo = nomeArquivo;
+							String caminho = (dir + "\\" + arquivo);
+							lc = caminho;
+							
+							System.out.println("achado!");
+							System.out.println(caminho);
+							
+							break;
+
+						}else {
+							System.out.println("Não achado!");
+						}
+					}
+				}
+			}
+		});
+		btnConsultar.setBounds(259, 41, 89, 23);
+		contentPane.add(btnConsultar);
+		
+		JButton btnAbrir = new JButton("Abrir arquivo");
+		btnAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				// abre o arquivo encontrado na busca
+				try {
+					java.awt.Desktop.getDesktop().open(new File(lc));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnAbrir.setBounds(120, 145, 120, 32);
+		contentPane.add(btnAbrir);
 	}
 }

@@ -4,22 +4,22 @@ import java.util.Date;
 
 public class pdf {
 	
-	 private int numeroinc;
-	 private String nomeaqr;
+	 private int numr_inscricao;
+	 private String nome_arquivo;
 	 private Date data;
-	 private Date dataatl;
+	 private Date data_atualizada;
 	 
-	public int getNumeroinc() {
-		return numeroinc;
+	public int getNumr_inscricao() {
+		return numr_inscricao;
 	}
-	public void setNumeroinc(int numeroinc) {
-		this.numeroinc = numeroinc;
+	public void setNumr_inscricao(int numr_inscricao) {
+		this.numr_inscricao = numr_inscricao;
 	}
-	public String getNomeaqr() {
-		return nomeaqr;
+	public String getNome_arquivo() {
+		return nome_arquivo;
 	}
-	public void setNomeaqr(String nomeaqr) {
-		this.nomeaqr = nomeaqr;
+	public void setNome_arquivo(String nome_arquivo) {
+		this.nome_arquivo = nome_arquivo;
 	}
 	public Date getData() {
 		return data;
@@ -27,11 +27,11 @@ public class pdf {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public Date getDataatl() {
-		return dataatl;
+	public Date getData_atualizada() {
+		return data_atualizada;
 	}
-	public void setDataatl(Date dataatl) {
-		this.dataatl = dataatl;
+	public void setData_atualizada(Date data_atualizada) {
+		this.data_atualizada = data_atualizada;
 	}
 	 
 	 

@@ -1,8 +1,6 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -41,6 +39,7 @@ public class Menu extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setResizable(false);
+		this.setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 		
 		JButton btnCadastro = new JButton("CADASTRO");

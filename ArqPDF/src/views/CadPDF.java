@@ -6,20 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import model.bean.pdf;
 import model.dao.pdfDAO;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.io.*;
 import java.util.*;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -39,7 +35,7 @@ public class CadPDF extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -50,7 +46,7 @@ public class CadPDF extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -63,12 +59,30 @@ public class CadPDF extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setResizable(false);
+		this.setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 
 		JLabel lblDadosPdf = new JLabel("Dados PDF");
 		lblDadosPdf.setBounds(10, 11, 87, 14);
 		contentPane.add(lblDadosPdf);
 		lblDadosPdf.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		JLabel lblNDeIncrio = new JLabel("N\u00BA de incri\u00E7\u00E3o");
+		lblNDeIncrio.setBounds(20, 51, 87, 14);
+		contentPane.add(lblNDeIncrio);
+		
+		JLabel lblNomeDoArquivo = new JLabel("Nome do arquivo");
+		lblNomeDoArquivo.setBounds(20, 90, 99, 14);
+		contentPane.add(lblNomeDoArquivo);
+		
+		JLabel lblDataHora = new JLabel();
+		Date data = new Date();
+		DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy");
+		lblDataHora.setText("Data: " + formatoData.format(data.getTime()));
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.add(Calendar.MINUTE, 1);
+		lblDataHora.setBounds(303, 12, 99, 14);
+		contentPane.add(lblDataHora);
 
 		textNumero = new JTextField();
 		textNumero.setBounds(20, 67, 211, 20);
@@ -80,14 +94,7 @@ public class CadPDF extends JFrame {
 		contentPane.add(textNome);
 		textNome.setColumns(10);
 
-		JLabel lblDataHora = new JLabel();
-		Date data = new Date();
-		DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy");
-		lblDataHora.setText("Data: " + formatoData.format(data.getTime()));
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.add(Calendar.MINUTE, 1);
-		lblDataHora.setBounds(303, 12, 99, 14);
-		contentPane.add(lblDataHora);
+		
 
 		// seleção de arquivo e envio a pasta
 		JButton btnArq = new JButton("selecionar arquivo");
@@ -141,13 +148,13 @@ public class CadPDF extends JFrame {
 
 				} else {
 					if (rt == "Movido com sucesso") {
-						textNome.setBorder(BorderFactory.createLineBorder(null));
+						textNome.setBorder(BorderFactory.createLineBorder(null));						
 
 
 						pdf p = new pdf();
 
-						p.setNumeroinc(Integer.parseInt(textNumero.getText()));
-						p.setNomeaqr(textNome.getText());
+						p.setNumr_inscricao(Integer.parseInt(textNumero.getText()));
+						p.setNome_arquivo(textNome.getText());
 
 						pdfDAO dao = new pdfDAO();
 
@@ -158,6 +165,7 @@ public class CadPDF extends JFrame {
 
 					} else {
 						textNome.setBorder(BorderFactory.createLineBorder(null));
+						textNumero.setBorder(BorderFactory.createLineBorder(null));
 						JOptionPane.showMessageDialog(null, "Arquivo não selecionado!");
 					}
 
@@ -166,14 +174,6 @@ public class CadPDF extends JFrame {
 		});
 		btnSalvar.setBounds(303, 172, 87, 30);
 		contentPane.add(btnSalvar);
-
-		JLabel lblNDeIncrio = new JLabel("N\u00BA de incri\u00E7\u00E3o");
-		lblNDeIncrio.setBounds(20, 51, 87, 14);
-		contentPane.add(lblNDeIncrio);
-
-		JLabel lblNomeDoArquivo = new JLabel("Nome do arquivo");
-		lblNomeDoArquivo.setBounds(20, 90, 99, 14);
-		contentPane.add(lblNomeDoArquivo);
 
 	}
 }
