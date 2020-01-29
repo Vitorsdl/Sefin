@@ -41,7 +41,7 @@ public class Consulta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
+
 	public Consulta() {
 		super("Consulta");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -52,48 +52,48 @@ public class Consulta extends JFrame {
 		setResizable(false);
 		this.setLocationRelativeTo(null);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setBounds(24, 70, 46, 14);
 		contentPane.add(lblNome);
-		
+
 		JLabel lblNumero = new JLabel("Numero:");
 		lblNumero.setBounds(24, 95, 54, 14);
 		contentPane.add(lblNumero);
-		
+
 		JLabel lblData = new JLabel("Data:");
 		lblData.setBounds(24, 120, 46, 14);
 		contentPane.add(lblData);
-		
+
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(233, 11, 94, 20);
 		contentPane.add(comboBox);		
 		comboBox.addItem("Nome");
 		comboBox.addItem("Numero");
-		
+
 		textBusca = new JTextField();
 		textBusca.setBounds(34, 11, 189, 20);
 		contentPane.add(textBusca);
 		textBusca.setColumns(10);
-		
+
 		textNum = new JTextField();
 		textNum.setEnabled(false);
 		textNum.setBounds(75, 92, 89, 20);
 		contentPane.add(textNum);
 		textNum.setColumns(10);
-		
+
 		textNom = new JTextField();
 		textNom.setEnabled(false);
 		textNom.setBounds(62, 67, 164, 20);
 		contentPane.add(textNom);
 		textNom.setColumns(10);
-		
+
 		textDat = new JTextField();
 		textDat.setEnabled(false);
 		textDat.setBounds(55, 117, 86, 20);
 		contentPane.add(textDat);
 		textDat.setColumns(10);
-		
+
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,10 +114,10 @@ public class Consulta extends JFrame {
 							String arquivo = nomeArquivo;
 							String caminho = (dir + "\\" + arquivo);
 							lc = caminho;
-							
+
 							System.out.println("achado!");
 							System.out.println(caminho);
-							
+
 							break;
 
 						}else {
@@ -129,11 +129,11 @@ public class Consulta extends JFrame {
 		});
 		btnConsultar.setBounds(259, 41, 89, 23);
 		contentPane.add(btnConsultar);
-		
+
 		JButton btnAbrir = new JButton("Abrir arquivo");
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				// abre o arquivo encontrado na busca
 				try {
 					java.awt.Desktop.getDesktop().open(new File(lc));

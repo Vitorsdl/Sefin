@@ -1,7 +1,6 @@
 package views;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,17 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
-import java.io.*;
-import java.util.*;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class CadPDF extends JFrame {
@@ -66,22 +61,20 @@ public class CadPDF extends JFrame {
 		lblDadosPdf.setBounds(10, 11, 87, 14);
 		contentPane.add(lblDadosPdf);
 		lblDadosPdf.setFont(new Font("Tahoma", Font.BOLD, 13));
-		
+
 		JLabel lblNDeIncrio = new JLabel("N\u00BA de incri\u00E7\u00E3o");
 		lblNDeIncrio.setBounds(20, 51, 87, 14);
 		contentPane.add(lblNDeIncrio);
-		
+
 		JLabel lblNomeDoArquivo = new JLabel("Nome do arquivo");
 		lblNomeDoArquivo.setBounds(20, 90, 99, 14);
 		contentPane.add(lblNomeDoArquivo);
-		
+
 		JLabel lblDataHora = new JLabel();
 		Date data = new Date();
-		DateFormat formatoData = new SimpleDateFormat("dd-MM-yyyy");
-		lblDataHora.setText("Data: " + formatoData.format(data.getTime()));
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.add(Calendar.MINUTE, 1);
-		lblDataHora.setBounds(303, 12, 99, 14);
+		DateFormat formatado = DateFormat.getDateInstance(DateFormat.SHORT);
+		lblDataHora.setText(formatado.format(data));
+		lblDataHora.setBounds(350, 11, 59, 14);
 		contentPane.add(lblDataHora);
 
 		textNumero = new JTextField();
@@ -94,7 +87,7 @@ public class CadPDF extends JFrame {
 		contentPane.add(textNome);
 		textNome.setColumns(10);
 
-		
+
 
 		// seleção de arquivo e envio a pasta
 		JButton btnArq = new JButton("selecionar arquivo");
@@ -115,10 +108,10 @@ public class CadPDF extends JFrame {
 
 					File[] arq = file.getSelectedFiles();
 					for(int i =0; arq.length > i; i++) {
-						String nome = arq[i].getName();						
-						arq[i].renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome));																		
+						String nome = arq[i].getName();
+						arq[i].renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome));
 					}
-					
+
 					rt = "Movido com sucesso";
 					System.out.println(rt);
 
@@ -155,12 +148,15 @@ public class CadPDF extends JFrame {
 
 						p.setNumr_inscricao(Integer.parseInt(textNumero.getText()));
 						p.setNome_arquivo(textNome.getText());
+						p.setData(lblDataHora.getText());
 
 						pdfDAO dao = new pdfDAO();
 
 						if(dao.save(p)) { JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
 
-						}else { JOptionPane.showMessageDialog(null, "Erro ao salvar."); }
+						dispose();
+
+						}else { JOptionPane.showMessageDialog(null, "Erro ao salvar."); dispose();}
 
 
 					} else {

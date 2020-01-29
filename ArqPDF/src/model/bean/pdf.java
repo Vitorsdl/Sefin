@@ -3,12 +3,12 @@ package model.bean;
 import java.util.Date;
 
 public class pdf {
-	
-	 private int numr_inscricao;
-	 private String nome_arquivo;
-	 private Date data;
-	 private Date data_atualizada;
-	 
+
+	private int numr_inscricao;
+	private String nome_arquivo;
+	private String data;
+	private Date data_atualizada;
+
 	public int getNumr_inscricao() {
 		return numr_inscricao;
 	}
@@ -21,10 +21,10 @@ public class pdf {
 	public void setNome_arquivo(String nome_arquivo) {
 		this.nome_arquivo = nome_arquivo;
 	}
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 	public Date getData_atualizada() {
@@ -33,7 +33,7 @@ public class pdf {
 	public void setData_atualizada(Date data_atualizada) {
 		this.data_atualizada = data_atualizada;
 	}
-	 
-	 
+
+
 
 }

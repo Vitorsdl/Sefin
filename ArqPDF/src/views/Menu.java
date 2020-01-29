@@ -41,22 +41,22 @@ public class Menu extends JFrame {
 		setResizable(false);
 		this.setLocationRelativeTo(null);
 		contentPane.setLayout(null);
-		
+
 		JButton btnCadastro = new JButton("CADASTRO");
 		btnCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				CadPDF cad = new CadPDF();
 				cad.setVisible(true);
 			}
 		});
 		btnCadastro.setBounds(87, 11, 116, 53);
 		contentPane.add(btnCadastro);
-		
+
 		JButton btnConsulta = new JButton("CONSULTA");
 		btnConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				Consulta co = new Consulta();
 				co.setVisible(true);
 			}
