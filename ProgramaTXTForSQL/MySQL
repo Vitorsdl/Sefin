@@ -1,0 +1,48 @@
+import java.io.*;
+import java.sql.*;
+
+public class MySQL {
+	public static void main(String[] args) throws FileNotFoundException, SQLException, ClassNotFoundException {
+
+		String dados[] = null;
+		String CaminhoArq = "D:\\teste12.txt", sql = "";
+		long j = 0;
+		try {
+			System.out.println("Conectando ao banco...");
+			//Inicio conexão banco de dados
+			Class.forName("org.postgresql.Driver");
+			Connection conexao = (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:3306/teste","postgres", "123456");
+			//fim conexão banco de dados
+			Statement inserir = conexao.createStatement();
+			System.out.println("Conectado!");
+			
+			FileReader Arq = new FileReader(CaminhoArq);
+			BufferedReader tm = new BufferedReader(Arq);
+			while (tm.ready() == true) {
+				dados = tm.readLine().split(";");
+				//Monategm do código de inseção
+				sql="insert into teste "
+						 +"values ("+"'" +j +"'" +"," +"'" +dados[0] +"'" +"," +"'" +dados[1] +"'" +"," +"'" 
+						 +dados[2] +"'" +"," +"'" +dados[3] +"'" +"," +"'" 
+						 +dados[4] +"'" +"," +"'" +dados[5] +"'" +"," +"'" +dados[6] +"'" +"," +"'" 
+						 +dados[7] +"'" +"," +"'" +dados[8] +"'" +"," +"'" +dados[9] +"'" +"," +"'" +dados[10] +"'" +"," 
+						 +"'" +dados[11] +"'" +"," +"'" +dados[12] +"'" +"," +"'" +dados[13] +"'" +"," +"'" +dados[14] +"'" 
+						 +"," +"'" +dados[15] +"'" +"," +"'" +dados[16] +"'" +"," +"'" +dados[17] +"'"+","+"'NULL'"+")";
+				
+				inserir.executeUpdate(sql);//Faz a inserção no banco de dados
+				System.out.println(sql);
+				System.out.println("Inserido!");
+				j++;
+
+			}
+			System.out.println("\nFechando conexão ao banco...");
+			conexao.close();//Fecha a conexão com o banco de dados
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

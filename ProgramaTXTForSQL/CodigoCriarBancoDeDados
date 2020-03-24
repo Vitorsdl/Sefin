@@ -1,0 +1,5 @@
+DROP TABLE teste;
+create table teste (Idn VARCHAR(255),Insc_Prestador VARCHAR(255),Nome_Prestador VARCHAR(255),CGC_CPF_Prestador VARCHAR(255),Periodo_Ano_Mes VARCHAR(255),
+Data_NF VARCHAR(255),Nr_NF VARCHAR(255),Nr_AIDF VARCHAR(255),Ano_AIDF VARCHAR(255),Nome_Tomador VARCHAR(255),Cidade_Tomador VARCHAR(255),
+CGC_CPF_Tomador VARCHAR(255),Situacao_Imposto VARCHAR(255),Situacao_NF VARCHAR(255),Vl_NF VARCHAR(255),
+Vl_Base_de_Calculo VARCHAR(255),Aliquota VARCHAR(255),Vl_Imposto VARCHAR(255),Tipo_Contribuinte VARCHAR(255),Tipo_Processamento_NF VARCHAR(255));
