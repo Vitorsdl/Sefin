@@ -8,6 +8,7 @@ public class pdf {
 	private String nome_arquivo;
 	private String data;
 	private Date data_atualizada;
+	private String diretorio;
 
 	public int getNumr_inscricao() {
 		return numr_inscricao;
@@ -32,6 +33,12 @@ public class pdf {
 	}
 	public void setData_atualizada(Date data_atualizada) {
 		this.data_atualizada = data_atualizada;
+	}
+	public String getDiretorio() {
+		return diretorio;
+	}
+	public void setDiretorio(String diretorio) {
+		this.diretorio = diretorio;
 	}
 
 

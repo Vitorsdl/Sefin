@@ -4,8 +4,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.dao.pdfDAO;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
@@ -21,7 +25,8 @@ public class Consulta extends JFrame {
 	private JTextField textNom;
 	private JTextField textDat;
 	private String lc;
-
+	public String texto;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -37,6 +42,16 @@ public class Consulta extends JFrame {
 			}
 		});
 	}*/
+
+	public String getTexto() {
+		return texto;
+	}
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+
+
 
 	/**
 	 * Create the frame.
@@ -65,14 +80,8 @@ public class Consulta extends JFrame {
 		lblData.setBounds(24, 120, 46, 14);
 		contentPane.add(lblData);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(233, 11, 94, 20);
-		contentPane.add(comboBox);		
-		comboBox.addItem("Nome");
-		comboBox.addItem("Numero");
-
 		textBusca = new JTextField();
-		textBusca.setBounds(34, 11, 189, 20);
+		textBusca.setBounds(24, 24, 189, 20);
 		contentPane.add(textBusca);
 		textBusca.setColumns(10);
 
@@ -101,33 +110,43 @@ public class Consulta extends JFrame {
 				String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
 				File file = new File(dir);
 				if (file.exists() && file.isDirectory()) {
-
-					// coloca no array de String o nome de todos os arquivos encontrados no diretorio
-					String[] nomesArquivo = file.list();
-					// vai varer todo o array
-					for (int i = 0; i < nomesArquivo.length; i++) {
-						String nomeArquivo = nomesArquivo[i];
-
-						// verifica se o nome do arquivo começa pelo no do arquivo passar como parametro
-						if (nomeArquivo.startsWith(textBusca.getText().toString())) {
-							arqui = true;
-							String arquivo = nomeArquivo;
-							String caminho = (dir + "\\" + arquivo);
-							lc = caminho;
-
-							System.out.println("achado!");
-							System.out.println(caminho);
-
+					System.out.println("entrou");
+					
+					texto = textBusca.getText();
+					for(int i = 0; i < texto.length(); i++) {
+						
+						if(Character.isDigit(texto.charAt(i))==true) {
+							
+							Consulta com = new Consulta();
+							com.setTexto(textBusca.getText());
+							
+							pdfDAO dao = new pdfDAO();
+							
+							if(dao.buscNumero(com)) {JOptionPane.showMessageDialog(null, "Achado com sucesso.");
+							dispose();
+							}else {JOptionPane.showMessageDialog(null, "Erro ao buscar."); dispose();}
+							
+							//JOptionPane.showMessageDialog(null, "Possui numeros");s
 							break;
-
 						}else {
-							System.out.println("Não achado!");
+							
+							Consulta com = new Consulta();
+							com.setTexto(textBusca.getText());
+							
+							pdfDAO dao = new pdfDAO();
+							
+							if(dao.buscaNome(com)) {JOptionPane.showMessageDialog(null, "Achado com sucesso.");
+							dispose();
+							}else {JOptionPane.showMessageDialog(null, "Erro ao buscar."); dispose();}
+							
 						}
+							
 					}
+					
 				}
 			}
 		});
-		btnConsultar.setBounds(259, 41, 89, 23);
+		btnConsultar.setBounds(241, 23, 89, 23);
 		contentPane.add(btnConsultar);
 
 		JButton btnAbrir = new JButton("Abrir arquivo");

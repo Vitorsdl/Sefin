@@ -26,6 +26,7 @@ public class CadPDF extends JFrame {
 	private JTextField textNumero;
 	private JTextField textNome;
 	private String rt;
+	private String diret;
 
 	/**
 	 * Launch the application.
@@ -49,7 +50,7 @@ public class CadPDF extends JFrame {
 	public CadPDF() {
 		super("Cadastro PDF");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 425, 240);
+		setBounds(100, 100, 425, 246);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -74,7 +75,7 @@ public class CadPDF extends JFrame {
 		Date data = new Date();
 		DateFormat formatado = DateFormat.getDateInstance(DateFormat.SHORT);
 		lblDataHora.setText(formatado.format(data));
-		lblDataHora.setBounds(350, 11, 59, 14);
+		lblDataHora.setBounds(344, 11, 65, 14);
 		contentPane.add(lblDataHora);
 
 		textNumero = new JTextField();
@@ -97,7 +98,7 @@ public class CadPDF extends JFrame {
 
 				JFileChooser file = new JFileChooser();
 				file.setDialogTitle("Procurar arquivo");
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf", "png", "jpeg");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf", "png", "jpeg", "jpg");
 				file.setFileFilter(filter);
 				file.setMultiSelectionEnabled(true);
 				file.setAcceptAllFileFilterUsed(false);
@@ -110,6 +111,9 @@ public class CadPDF extends JFrame {
 					for(int i =0; arq.length > i; i++) {
 						String nome = arq[i].getName();
 						arq[i].renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome));
+						
+						diret = "C:\\Users\\m1416685\\Desktop\\pdfs/" + nome;
+						System.out.println(diret);
 					}
 
 					rt = "Movido com sucesso";
@@ -149,6 +153,7 @@ public class CadPDF extends JFrame {
 						p.setNumr_inscricao(Integer.parseInt(textNumero.getText()));
 						p.setNome_arquivo(textNome.getText());
 						p.setData(lblDataHora.getText());
+						p.setDiretorio(diret);
 
 						pdfDAO dao = new pdfDAO();
 

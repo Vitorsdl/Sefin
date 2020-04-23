@@ -11,8 +11,8 @@ public class conexaoBd {
 
 	private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private static final String URL = "jdbc:sqlserver://10.52.0.144:1433;databaseName=DW_SEFIN";
-	private static final String USER = "m1415425";
-	private static final String PASS = "8218";
+	private static final String USER = "m1415425"; //m1415425
+	private static final String PASS = "8218"; //8218
 
 	public static Connection getConnection() {
 		try {
