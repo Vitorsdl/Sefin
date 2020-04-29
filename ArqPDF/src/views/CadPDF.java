@@ -158,7 +158,6 @@ public class CadPDF extends JFrame {
 						pdfDAO dao = new pdfDAO();
 
 						if(dao.save(p)) { JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-
 						dispose();
 
 						}else { JOptionPane.showMessageDialog(null, "Erro ao salvar."); dispose();}

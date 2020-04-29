@@ -7,12 +7,21 @@ import java.sql.SQLException;
 import conexao.conexaoBd;
 import model.bean.pdf;
 import views.Consulta;
+import java.util.List;
 
 
 public class pdfDAO {
 
 	private Connection con = null;
 	private String resultado;
+
+	public String getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
+	}
 
 	public pdfDAO() {
 
@@ -43,8 +52,8 @@ public class pdfDAO {
 	}
 	
 	public String buscaNome(Consulta consulta) {
-		
-		String sql = "Select diretorio from dbo.pdf where nome_arquivo = ?";
+			
+		String sql = "Select numr_inscricao, nome_arquivo, data, diretorio from dbo.pdf where nome_arquivo = ?";
 		
 		pdf p = new pdf();
 		PreparedStatement stmt = null;
@@ -57,6 +66,9 @@ public class pdfDAO {
 			
 			while(rs.next()) {
 				p.setDiretorio(rs.getString("diretorio"));
+//				p.setNome_arquivo(rs.getString("nome_arquivo"));
+//				p.setNumr_inscricao(rs.getInt("numr_inscricao"));
+//				p.setData(rs.getString("data"));
 			}
 			
 		}catch (SQLException ex) {
@@ -66,12 +78,12 @@ public class pdfDAO {
 		}
 		
 		resultado = p.getDiretorio();
-		return resultado;
+		return this.resultado;
 	}
 	
 	public String buscNumero(Consulta consulta) {
 		
-		String sql = "Select diretorio from dbo.pdf where numr_inscricao = ?";
+		String sql = "Select numr_inscricao, nome_arquivo, data, diretorio from dbo.pdf where numr_inscricao = ?";
 		
 		pdf p = new pdf();
 		PreparedStatement stmt = null;
@@ -84,6 +96,9 @@ public class pdfDAO {
 			
 			while(rs.next()) {				
 				p.setDiretorio(rs.getString("diretorio"));
+//				p.setNome_arquivo(rs.getString("nome_arquivo"));
+//				p.setNumr_inscricao(rs.getInt("numr_inscricao"));
+//				p.setData(rs.getString("data"));
 			}
 			
 		}catch (SQLException ex) {
@@ -93,7 +108,7 @@ public class pdfDAO {
 		}
 		
 		resultado = p.getDiretorio();
-		return resultado;
+		return this.resultado;
 	}
 
 }
