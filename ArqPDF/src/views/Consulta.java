@@ -21,7 +21,7 @@ public class Consulta extends JFrame {
 	private JTextField textBusca;
 	private String lc;
 	public String texto;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -73,41 +73,36 @@ public class Consulta extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
 				File file = new File(dir);
+
 				if (file.exists() && file.isDirectory()) {
-					
+
 					texto = textBusca.getText();
-					for(int i = 0; i < texto.length(); i++) {
-						
-						if(Character.isDigit(texto.charAt(i))==true) {
-							
-							Consulta com = new Consulta();
-							com.setTexto(textBusca.getText());
-							
-							pdfDAO dao = new pdfDAO();
-							
-							if(dao.buscNumero(com) != null) {JOptionPane.showMessageDialog(null, "Achado com sucesso.");
-							//dispose();
-							
-							lc = dao.getResultado();
-							
-							}else {JOptionPane.showMessageDialog(null, "Erro ao buscar."); dispose();}
-							break;
-						}else {
-							
-							Consulta com = new Consulta();
-							com.setTexto(textBusca.getText());
-							
-							pdfDAO dao = new pdfDAO();
-							
-							if(dao.buscaNome(com) != null) {JOptionPane.showMessageDialog(null, "Achado com sucesso.");
-							//dispose();
-							}else {JOptionPane.showMessageDialog(null, "Erro ao buscar."); dispose();}
-							
-						}
-							
-					}
+
+					pdfDAO dao = new pdfDAO();
 					
+					//verifica se foi digitado int ou string
+					for(int i = 0; i < texto.length(); i++) {
+
+						if(Character.isDigit(texto.charAt(i))==true) {
+
+							Consulta com = new Consulta(); com.setTexto(textBusca.getText());
+
+							if(dao.buscNumero(com) != null) {JOptionPane.showMessageDialog(null,"Achado com sucesso."); 
+							lc = dao.getResultado();
+
+							}else {JOptionPane.showMessageDialog(null, "Erro ao buscar.");}
+							break; }
+						else {Consulta com = new Consulta(); com.setTexto(textBusca.getText());
+
+						if(dao.buscaNome(com) != null) {JOptionPane.showMessageDialog(null,"Achado com sucesso.");
+						lc = dao.getResultado();
+
+						}else{JOptionPane.showMessageDialog(null, "Erro ao buscar.");}
+						break;
+						}
+					}
 				}
+				else {JOptionPane.showMessageDialog(null, "Falha no diretorio.");}
 			}
 		});
 		btnConsultar.setBounds(241, 23, 89, 23);

@@ -100,7 +100,7 @@ public class CadPDF extends JFrame {
 				file.setDialogTitle("Procurar arquivo");
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf", "png", "jpeg", "jpg");
 				file.setFileFilter(filter);
-				file.setMultiSelectionEnabled(true);
+				file.setMultiSelectionEnabled(false);
 				file.setAcceptAllFileFilterUsed(false);
 
 				int retorno = file.showOpenDialog(file);
