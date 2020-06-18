@@ -25,8 +25,8 @@ public class CadPDF extends JFrame {
 	private JPanel contentPane;
 	private JTextField textNumero;
 	private JTextField textNome;
-	private String rt;
-	private String diret;
+	private String retorna;
+	private String diretorio;
 
 	/**
 	 * Launch the application.
@@ -48,7 +48,7 @@ public class CadPDF extends JFrame {
 	 * Create the frame.
 	 */
 	public CadPDF() {
-		super("Cadastro PDF");
+		super("Cadastro vegetal");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 425, 246);
 		contentPane = new JPanel();
@@ -58,8 +58,8 @@ public class CadPDF extends JFrame {
 		this.setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 
-		JLabel lblDadosPdf = new JLabel("Dados PDF");
-		lblDadosPdf.setBounds(10, 11, 87, 14);
+		JLabel lblDadosPdf = new JLabel("Dados vegetal");
+		lblDadosPdf.setBounds(10, 11, 97, 20);
 		contentPane.add(lblDadosPdf);
 		lblDadosPdf.setFont(new Font("Tahoma", Font.BOLD, 13));
 
@@ -100,7 +100,7 @@ public class CadPDF extends JFrame {
 				file.setDialogTitle("Procurar arquivo");
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf", "png", "jpeg", "jpg");
 				file.setFileFilter(filter);
-				file.setMultiSelectionEnabled(false);
+				file.setMultiSelectionEnabled(true);
 				file.setAcceptAllFileFilterUsed(false);
 
 				int retorno = file.showOpenDialog(file);
@@ -110,20 +110,19 @@ public class CadPDF extends JFrame {
 					File[] arq = file.getSelectedFiles();
 					for(int i =0; arq.length > i; i++) {
 						String nome = arq[i].getName();
-						arq[i].renameTo(new File("C:\\Users\\m1416685\\Desktop\\pdfs/" + nome));
+						arq[i].renameTo(new File("\\\\10.52.1.13\\sefin$\\TEMPORARIA\\vitor\\vegetais/" + nome));
 						
-						diret = "C:\\Users\\m1416685\\Desktop\\pdfs/" + nome;
-						System.out.println(diret);
+						diretorio = "\\\\10.52.1.13\\sefin$\\TEMPORARIA\\vitor\\vegetais/" + nome;
+						System.out.println(diretorio);
 					}
 
-					rt = "Movido com sucesso";
-					System.out.println(rt);
+					retorna = "Movido com sucesso";
+					System.out.println(retorna);
 
 				} else {
-					rt = "Não movido";
-					System.out.println(rt);
+					retorna = "Não movido";
+					System.out.println(retorna);
 				}
-
 			}
 		});
 		btnArq.setBounds(257, 86, 138, 23);
@@ -144,7 +143,7 @@ public class CadPDF extends JFrame {
 					JOptionPane.showMessageDialog(null, "Campo nome vazio!");
 
 				} else {
-					if (rt == "Movido com sucesso") {
+					if (retorna == "Movido com sucesso") {
 						textNome.setBorder(BorderFactory.createLineBorder(null));						
 
 
@@ -153,7 +152,7 @@ public class CadPDF extends JFrame {
 						p.setNumr_inscricao(Integer.parseInt(textNumero.getText()));
 						p.setNome_arquivo(textNome.getText());
 						p.setData(lblDataHora.getText());
-						p.setDiretorio(diret);
+						p.setDiretorio(diretorio);
 
 						pdfDAO dao = new pdfDAO();
 

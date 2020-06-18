@@ -19,7 +19,7 @@ public class Consulta extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textBusca;
-	private String lc;
+	private String local;
 	public String texto;
 
 	/**
@@ -53,7 +53,7 @@ public class Consulta extends JFrame {
 	 */
 
 	public Consulta() {
-		super("Consulta");
+		super("Buscar vegetal");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 364, 159);
 		contentPane = new JPanel();
@@ -71,7 +71,7 @@ public class Consulta extends JFrame {
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String dir = "C:\\Users\\m1416685\\Desktop\\pdfs";
+				String dir = "\\\\10.52.1.13\\sefin$\\TEMPORARIA\\vitor\\vegetais";
 				File file = new File(dir);
 
 				if (file.exists() && file.isDirectory()) {
@@ -88,14 +88,14 @@ public class Consulta extends JFrame {
 							Consulta com = new Consulta(); com.setTexto(textBusca.getText());
 
 							if(dao.buscNumero(com) != null) {JOptionPane.showMessageDialog(null,"Achado com sucesso."); 
-							lc = dao.getResultado();
+							local = dao.getResultado();
 
 							}else {JOptionPane.showMessageDialog(null, "Erro ao buscar.");}
 							break; }
 						else {Consulta com = new Consulta(); com.setTexto(textBusca.getText());
 
 						if(dao.buscaNome(com) != null) {JOptionPane.showMessageDialog(null,"Achado com sucesso.");
-						lc = dao.getResultado();
+						local = dao.getResultado();
 
 						}else{JOptionPane.showMessageDialog(null, "Erro ao buscar.");}
 						break;
@@ -114,7 +114,7 @@ public class Consulta extends JFrame {
 
 				// abre o arquivo encontrado na busca
 				try {
-					java.awt.Desktop.getDesktop().open(new File(lc));
+					java.awt.Desktop.getDesktop().open(new File(local));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
